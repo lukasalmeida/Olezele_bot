@@ -9,7 +9,8 @@ load_dotenv()
 def get_connection():
 
     return psycopg2.connect(
-        os.getenv("DATABASE_URL")
+        os.getenv("DB_URL"),
+        sslmode="require"
     )
 
 
