@@ -1,4 +1,4 @@
-from database import pegar_log_channel
+from database.database import pegar_log_channel
 
 async def log(bot, guild_id, mensagem=None,embed=None):
         channel_log_id = pegar_log_channel(guild_id)

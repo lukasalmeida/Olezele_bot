@@ -2,7 +2,7 @@ import discord
 import asyncio
 import io
 
-from database import pegar_log_channel
+from database.database import pegar_log_channel
 
 
 class FecharTicketModal(discord.ui.Modal, title="Finalizar Ticket"):

@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
-from database import salvar_log_channel
+from database.database import salvar_log_channel
 
 from utils.logger import log
 
