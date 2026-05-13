@@ -13,14 +13,12 @@ from views.ticket_view import TicketView
 load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
-GG = os.getenv('GUILD')
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
-guild = discord.Object(id=int(GG))
 
 @bot.event
 async def on_ready():
