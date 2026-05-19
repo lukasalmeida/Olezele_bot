@@ -2,9 +2,6 @@ import discord
 import asyncio
 import io
 
-from database.database import pegar_log_channel
-
-
 class FecharTicketModal(discord.ui.Modal, title="Finalizar Ticket"):
 
     solucao = discord.ui.TextInput(
@@ -61,56 +58,6 @@ class FecharTicketModal(discord.ui.Modal, title="Finalizar Ticket"):
             conteudo_transcript = (
                 transcript.getvalue().encode()
             )
-
-            # pega canal de logs
-            channel_log_id = pegar_log_channel(
-                interaction.guild.id
-            )
-
-            canal_log = interaction.guild.get_channel(
-                channel_log_id
-            )
-
-            # embed logs
-            embed_log = discord.Embed(
-                title="📁 Ticket Finalizado",
-                color=discord.Color.red(),
-                timestamp=discord.utils.utcnow()
-            )
-
-            embed_log.add_field(
-                name="Canal",
-                value=interaction.channel.name,
-                inline=False
-            )
-
-            embed_log.add_field(
-                name="Fechado por",
-                value=interaction.user.mention,
-                inline=False
-            )
-
-            embed_log.add_field(
-                name="Solução",
-                value=self.solucao.value,
-                inline=False
-            )
-
-            # envia no canal de logs
-            if canal_log:
-
-                await canal_log.send(
-                    embed=embed_log,
-                    file=discord.File(
-                        fp=io.BytesIO(
-                            conteudo_transcript
-                        ),
-                        filename=(
-                            f"transcript-"
-                            f"{interaction.channel.name}.txt"
-                        )
-                    )
-                )
 
             # envia DM para usuário
             if usuario_ticket:

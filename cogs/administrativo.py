@@ -4,8 +4,6 @@ from discord import app_commands
 
 from database.database import salvar_log_channel
 
-from utils.logger import log
-
 class Administrativo(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -53,7 +51,6 @@ class Administrativo(commands.Cog):
             text=f"Servidor: {interaction.guild.name}"
         )
 
-        await log(self.bot,interaction.guild.id,embed=embed)
 
 async def setup(bot):
     await bot.add_cog(Administrativo(bot))
