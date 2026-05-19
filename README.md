@@ -4,7 +4,9 @@
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-online-brightgreen)
-https://discord.com/oauth2/authorize?client_id=1501397537607913542
+
+[Instale em seu servidor Discord](https://discord.com/oauth2/authorize?client_id=1501397537607913542&permissions=8&integration_type=0&scope=bot+applications.commands)
+
 Bot de Discord desenvolvido em Python com sistema de tickets,
 logs, moderação e arquitetura escalável.
 
