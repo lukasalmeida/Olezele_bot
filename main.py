@@ -38,7 +38,8 @@ async def on_ready():
         timestamp=discord.utils.utcnow(),
     )
 
-    await log(bot,guild.id, embed=embed)
+    for guild in bot.guilds:
+        await log(bot, guild.id, embed=embed)
 
 
 async def main():
