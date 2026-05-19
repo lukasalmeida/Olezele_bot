@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
+from utils.logger import log
+from views import confirm_ban
 from views.confirm_ban import ConfirmBan
 from views.confirm_unban import ConfirmUnban
 

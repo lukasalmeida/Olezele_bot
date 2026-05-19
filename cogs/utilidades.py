@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
+from utils.logger import log
 from views.confirm_limpar import ConfirmLimpar
 from models.anuncio_modal import AnuncioModal
 
@@ -43,6 +44,8 @@ class Utilidades(commands.Cog):
         embed.set_footer(
             text=f"Servidor: {interaction.guild.name}"
         )
+
+        await log(self.bot,interaction.guild.id,embed=embed)
 
     #Limpa chat
     @app_commands.command(name="limpar", description='Limpa o chat')

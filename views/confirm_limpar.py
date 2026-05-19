@@ -1,5 +1,8 @@
 import discord
 
+from utils.logger import log
+
+
 class ConfirmLimpar(discord.ui.View):
 
     def __init__(self, bot, quantidade, canal, moderador):
@@ -69,6 +72,8 @@ class ConfirmLimpar(discord.ui.View):
             embed.set_footer(
                 text=f"Servidor: {interaction.guild.name}"
             )
+
+            await log(self.bot,interaction.guild.id,embed=embed)
 
         except Exception as e:
             await interaction.followup.send(

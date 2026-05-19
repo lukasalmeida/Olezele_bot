@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 from flask import Flask
 
+from utils.logger import log
 from views.fechar_ticket_view import FecharTicketView
 from views.ticket_view import TicketView
 
@@ -70,6 +71,23 @@ async def on_ready():
 
     print(f"Bot online como {bot.user}")
 
+    embed = discord.Embed(
+        title="🟢 Bot online",
+        description=f"Bot online como {bot.user}",
+        color=discord.Color.green(),
+        timestamp=discord.utils.utcnow(),
+    )
+
+    for guild in bot.guilds:
+        try:
+            await log(bot, guild.id, embed=embed)
+        except Exception as e:
+            print(f"Erro ao enviar log: {e}")
+
+
+# ===================================
+# START
+# ===================================
 
 threading.Thread(target=run_web).start()
 

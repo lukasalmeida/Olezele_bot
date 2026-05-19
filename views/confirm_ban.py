@@ -1,5 +1,8 @@
 import discord
 
+from utils.logger import log
+
+
 class ConfirmBan(discord.ui.View):
 
     def __init__(self, bot, membro, moderador, motivo):
@@ -69,6 +72,8 @@ class ConfirmBan(discord.ui.View):
                 text=f"Servidor: {interaction.guild.name}"
             )
 
+            await log(self.bot, interaction.guild.id, embed=embed)
+
             await interaction.response.edit_message(
                 content=f"{self.membro.mention} ({self.membro.id}) foi banido!",
                 view=None
@@ -100,6 +105,8 @@ class ConfirmBan(discord.ui.View):
             embed.set_footer(
                 text=f"Servidor: {interaction.guild.name}"
             )
+
+            await log(self.bot,interaction.guild.id,embed=embed)
 
         except Exception as e:
             await interaction.followup.send(
