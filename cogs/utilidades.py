@@ -16,7 +16,8 @@ class Utilidades(commands.Cog):
         description="Testa o bot e exibe a latência",
     )
     async def ping(self,interaction: discord.Interaction):
-        await interaction.response.send_message(f'🏓 Pong! {round(self.bot.latency * 1000)}ms', ephemeral=True)
+        await  interaction.response.defer(ephemeral=True)
+        await interaction.followup.send(f'🏓 Pong! {round(self.bot.latency * 1000)}ms', ephemeral=True)
 
         embed = discord.Embed(
             title="▶️ COMANDO EXECUTADO!",
@@ -50,10 +51,10 @@ class Utilidades(commands.Cog):
     @app_commands.command(name="limpar", description='Limpa o chat')
     @app_commands.describe(quantidade="Quantidde de mensagens a apagar")
     async def limpar(self,interaction: discord.Interaction, quantidade: int):
-        if not interaction.user.guild_permissions.manage_messages:
-            await interaction.response.send_message("Sem permissão guerreiro", ephemeral=True)
-            return
         await interaction.response.defer(ephemeral=True)
+        if not interaction.user.guild_permissions.manage_messages:
+            await interaction.followup.send("Sem permissão guerreiro", ephemeral=True)
+            return
         try:
             view = ConfirmLimpar(
                 self.bot,
