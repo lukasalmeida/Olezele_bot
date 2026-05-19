@@ -1,33 +1,73 @@
-import discord
-from discord import emoji
-from discord.ext import commands
 import os
+import threading
+
+import discord
+from discord.ext import commands
 from dotenv import load_dotenv
-import asyncio
+
+from flask import Flask
 
 from utils.logger import log
 from views.fechar_ticket_view import FecharTicketView
-
 from views.ticket_view import TicketView
 
 load_dotenv()
 
-TOKEN = os.getenv('DISCORD_TOKEN')
+TOKEN = os.getenv("DISCORD_TOKEN")
+
+# ===================================
+# FLASK (necessário pro Render)
+# ===================================
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Olezele Bot Online"
+
+
+def run_web():
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
+
+# ===================================
+# DISCORD BOT
+# ===================================
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 
-bot = commands.Bot(command_prefix='!', intents=intents)
+
+class OlezeleBot(commands.Bot):
+
+    async def setup_hook(self):
+
+        # cogs
+        await self.load_extension("cogs.administrativo")
+        await self.load_extension("cogs.moderacao")
+        await self.load_extension("cogs.utilidades")
+        await self.load_extension("cogs.tickets")
+
+        # views persistentes
+        self.add_view(TicketView())
+        self.add_view(FecharTicketView())
+
+        # sync slash commands
+        synced = await self.tree.sync()
+
+        print(f"Sincronizados: {len(synced)} comandos")
+
+
+bot = OlezeleBot(
+    command_prefix="!",
+    intents=intents
+)
+
 
 @bot.event
 async def on_ready():
-    bot.add_view(TicketView())
-    bot.add_view(FecharTicketView())
-
-    synced = await bot.tree.sync()
-    print(f"Sincronizados: {len(synced)} comandos")
-
 
     print(f"Bot online como {bot.user}")
 
@@ -39,19 +79,16 @@ async def on_ready():
     )
 
     for guild in bot.guilds:
-        await log(bot, guild.id, embed=embed)
+        try:
+            await log(bot, guild.id, embed=embed)
+        except Exception as e:
+            print(f"Erro ao enviar log: {e}")
 
 
-async def main():
-    async with bot:
+# ===================================
+# START
+# ===================================
 
-        await bot.load_extension("cogs.administrativo")
-        await bot.load_extension("cogs.moderacao")
-        await bot.load_extension("cogs.utilidades")
-        await bot.load_extension("cogs.tickets")
+threading.Thread(target=run_web).start()
 
-        await bot.start(TOKEN)
-
-
-
-asyncio.run(main())
+bot.run(TOKEN)
