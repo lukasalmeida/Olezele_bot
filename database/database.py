@@ -10,7 +10,7 @@ def get_connection():
 
     return psycopg2.connect(
         os.getenv("DB_URL"),
-        sslmode="require"
+        sslmode="disable"
     )
 
 
