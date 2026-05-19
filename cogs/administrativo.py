@@ -16,8 +16,9 @@ class Administrativo(commands.Cog):
     @app_commands.describe(canal="Canal do log")
     async def setlog(self,interaction: discord.Interaction, canal: discord.TextChannel):
 
+        await interaction.response.defer(ephemeral=True)
         if not interaction.user.guild_permissions.administrator:
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "Só admin pode fazer isso.",
                 ephemeral=True
             )
@@ -25,7 +26,7 @@ class Administrativo(commands.Cog):
 
         salvar_log_channel(interaction.guild.id,canal.id)
 
-        await interaction.response.send_message(
+        await interaction.followup.send(
             f"Canal de logs definido como {canal.mention}",
             ephemeral=True
         )
