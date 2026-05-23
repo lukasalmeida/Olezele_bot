@@ -77,10 +77,6 @@ async def on_ready():
             print(f"Erro ao enviar log: {e}")
 
 
-# ===================================
-# START
-# ===================================
-
 threading.Thread(target=run_web).start()
 
 bot.run(TOKEN)
